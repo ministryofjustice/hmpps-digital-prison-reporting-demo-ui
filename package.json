@@ -1,0 +1,16 @@
+{
+  "name": "hmpps-digital-prison-reporting-demo-ui",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Small Node app used to prove the DPR GitHub Actions release path.",
+  "scripts": {
+    "setup": "npm ci --no-audit --no-fund",
+    "build": "node --check server.js && node --check server.test.js",
+    "lint": "node --check server.js && node --check server.test.js",
+    "test:ci": "node --test",
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=24"
+  }
+}

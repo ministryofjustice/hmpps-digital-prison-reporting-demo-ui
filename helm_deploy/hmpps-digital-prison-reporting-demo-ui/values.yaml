@@ -1,0 +1,31 @@
+generic-service:
+  nameOverride: hmpps-digital-prison-reporting-demo-ui
+
+  replicaCount: 1
+
+  image:
+    repository: ghcr.io/ministryofjustice/hmpps-digital-prison-reporting-demo-ui
+    tag: app_version # override at deployment time
+    port: 3000
+
+  ingress:
+    enabled: true
+    host: app-hostname.local # override per environment
+    tlsSecretName: hmpps-digital-prison-reporting-demo-ui-cert
+    modsecurity_enabled: true
+    modsecurity_audit_enabled: false
+
+  livenessProbe:
+    httpGet:
+      path: /ping
+
+  readinessProbe:
+    httpGet:
+      path: /ping
+
+  env:
+    NODE_ENV: 'production'
+
+  allowlist:
+    groups:
+      - internal

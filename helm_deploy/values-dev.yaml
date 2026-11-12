@@ -1,0 +1,9 @@
+generic-service:
+  replicaCount: 1
+
+  ingress:
+    host: hmpps-digital-prison-reporting-demo-ui-dev.hmpps.service.justice.gov.uk
+
+  env:
+    ENVIRONMENT_NAME: 'development'
+    INGRESS_URL: 'https://hmpps-digital-prison-reporting-demo-ui-dev.hmpps.service.justice.gov.uk'

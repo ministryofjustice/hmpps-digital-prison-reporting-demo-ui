@@ -1,0 +1,35 @@
+name: Pipeline
+
+# Main branch is the release branch. A push here creates vX.Y.Z, publishes
+# the image, and deploys dev and test. Preprod and prod are promoted from
+# hmpps-reporting-releases, not by this push.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write # release tag + GitHub Release (enable-release-tag)
+  packages: write
+  id-token: write
+  attestations: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref == 'refs/heads/main' && github.sha || github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+jobs:
+  pipeline:
+    uses: ministryofjustice/hmpps-reporting-workflows/.github/workflows/frontend_node_pipeline.yml@test/tag-based-releases
+    secrets: inherit
+    with:
+      deploy-ref: refs/heads/main
+      enable-release-tag: true
+      deploy-preprod-prod: false
+      enable-probation: false
+      enable-sentry: false
+      node-version: '24'
+      slack-channel: 'dpr_cicd_approvals'
+      primary-chart-name: hmpps-digital-prison-reporting-demo-ui
+      primary-release-name: hmpps-digital-prison-reporting-demo-ui
