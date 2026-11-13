@@ -1,0 +1,9 @@
+apiVersion: v2
+appVersion: '1.0'
+description: Probation product of the DPR demo UI. Same image as the prison chart.
+name: hmpps-probation-demo-ui
+version: 0.1.0
+dependencies:
+  - name: generic-service
+    version: '3.17'
+    repository: https://ministryofjustice.github.io/hmpps-helm-charts

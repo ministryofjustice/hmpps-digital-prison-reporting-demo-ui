@@ -30,3 +30,11 @@ test('home page says hello', async () => {
   assert.equal(res.status, 200)
   assert.match(res.body, /Hello from the DPR demo UI/)
 })
+
+test('probation product has its own heading', async () => {
+  process.env.PRODUCT = 'probation'
+  const res = await call('/')
+  delete process.env.PRODUCT
+  assert.equal(res.status, 200)
+  assert.match(res.body, /Hello from the DPR probation demo/)
+})
