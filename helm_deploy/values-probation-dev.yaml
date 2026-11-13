@@ -1,0 +1,9 @@
+generic-service:
+  replicaCount: 1
+
+  ingress:
+    host: hmpps-probation-demo-ui-dev.hmpps.service.justice.gov.uk
+
+  env:
+    ENVIRONMENT_NAME: 'development'
+    INGRESS_URL: 'https://hmpps-probation-demo-ui-dev.hmpps.service.justice.gov.uk'

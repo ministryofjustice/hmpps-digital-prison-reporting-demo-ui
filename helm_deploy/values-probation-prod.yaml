@@ -1,0 +1,9 @@
+generic-service:
+  replicaCount: 1
+
+  ingress:
+    host: hmpps-probation-demo-ui-prod.hmpps.service.justice.gov.uk
+
+  env:
+    ENVIRONMENT_NAME: 'production'
+    INGRESS_URL: 'https://hmpps-probation-demo-ui-prod.hmpps.service.justice.gov.uk'

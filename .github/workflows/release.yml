@@ -1,8 +1,9 @@
 name: Release
 
-# Helm-only release of a stable app tag (vX.Y.Z). preprod and prod need a
-# published, non-prerelease GitHub Release. dev and test may also use
-# app-version plus checkout-ref.
+# Helm-only release of a stable app tag (vX.Y.Z). One dispatch deploys the
+# prison chart and the probation chart. preprod and prod need a published,
+# non-prerelease GitHub Release. dev and test may also use app-version
+# plus checkout-ref.
 
 on:
   push:
@@ -60,7 +61,7 @@ permissions:
   id-token: write
 
 jobs:
-  release:
+  prison:
     if: github.event_name == 'workflow_dispatch'
     uses: ministryofjustice/hmpps-reporting-workflows/.github/workflows/generic_release_pipeline.yml@test/tag-based-releases
     secrets: inherit
@@ -70,9 +71,26 @@ jobs:
       app-version: ${{ inputs.app-version }}
       checkout-ref: ${{ inputs.checkout-ref }}
       helm-chart-name: ${{ inputs.helm-chart-name != '' && inputs.helm-chart-name || 'hmpps-digital-prison-reporting-demo-ui' }}
-      release-name: ${{ inputs.release-name }}
+      release-name: ${{ inputs.release-name != '' && inputs.release-name || 'hmpps-digital-prison-reporting-demo-ui' }}
       release-values-yaml: ${{ inputs.release-values-yaml }}
       verify-image: ${{ inputs.verify-image == true || inputs.verify-image == 'true' }}
       slack-notification: ${{ inputs.environment == 'prod' && 'true' || 'false' }}
+      slack-channel: 'dpr_cicd_approvals'
+      enable-sentry: false
+
+  probation:
+    if: github.event_name == 'workflow_dispatch'
+    uses: ministryofjustice/hmpps-reporting-workflows/.github/workflows/generic_release_pipeline.yml@test/tag-based-releases
+    secrets: inherit
+    with:
+      environment: ${{ inputs.environment == 'dev' && 'probation-dev' || inputs.environment == 'test' && 'probation-test' || inputs.environment == 'preprod' && 'probation-preprod' || 'probation-prod' }}
+      release-tag: ${{ inputs.release-tag }}
+      app-version: ${{ inputs.app-version }}
+      checkout-ref: ${{ inputs.checkout-ref }}
+      helm-chart-name: hmpps-probation-demo-ui
+      release-name: hmpps-probation-demo-ui
+      release-values-yaml: ${{ inputs.release-values-yaml }}
+      verify-image: ${{ inputs.verify-image == true || inputs.verify-image == 'true' }}
+      slack-notification: 'false'
       slack-channel: 'dpr_cicd_approvals'
       enable-sentry: false

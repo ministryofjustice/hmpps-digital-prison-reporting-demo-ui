@@ -1,8 +1,8 @@
 name: Pipeline
 
 # Main branch is the release branch. A push here creates vX.Y.Z, publishes
-# the image, and deploys dev and test. Preprod and prod are promoted from
-# hmpps-reporting-releases, not by this push.
+# the image, and deploys the prison and probation charts to dev and test.
+# Preprod and prod are promoted from hmpps-reporting-releases, not by this push.
 
 on:
   push:
@@ -27,9 +27,11 @@ jobs:
       deploy-ref: refs/heads/main
       enable-release-tag: true
       deploy-preprod-prod: false
-      enable-probation: false
+      enable-probation: true
       enable-sentry: false
       node-version: '24'
       slack-channel: 'dpr_cicd_approvals'
       primary-chart-name: hmpps-digital-prison-reporting-demo-ui
       primary-release-name: hmpps-digital-prison-reporting-demo-ui
+      probation-chart-name: hmpps-probation-demo-ui
+      probation-release-name: hmpps-probation-demo-ui

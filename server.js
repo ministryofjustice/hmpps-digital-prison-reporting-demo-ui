@@ -1,17 +1,23 @@
 const http = require('http')
 
-const page = `<!doctype html>
+function page() {
+  const product = process.env.PRODUCT === 'probation' ? 'probation' : 'prison'
+  const heading = product === 'probation'
+    ? 'Hello from the DPR probation demo'
+    : 'Hello from the DPR demo UI'
+  return `<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
     <title>DPR demo</title>
   </head>
   <body>
-    <h1>Hello from the DPR demo UI</h1>
+    <h1>${heading}</h1>
     <p>This page proves the GitHub Actions release path.</p>
   </body>
 </html>
 `
+}
 
 function handle(req, res) {
   const url = (req.url || '/').split('?')[0]
@@ -21,7 +27,7 @@ function handle(req, res) {
     return
   }
   res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' })
-  res.end(page)
+  res.end(page())
 }
 
 function listen(port) {

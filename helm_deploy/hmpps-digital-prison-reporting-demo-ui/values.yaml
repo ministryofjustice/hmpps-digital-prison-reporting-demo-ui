@@ -25,6 +25,7 @@ generic-service:
 
   env:
     NODE_ENV: 'production'
+    PRODUCT: 'prison'
 
   allowlist:
     groups:
