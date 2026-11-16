@@ -1,7 +1,7 @@
 generic-service:
   nameOverride: hmpps-digital-prison-reporting-demo-ui
 
-  replicaCount: 1
+  replicaCount: 2
 
   image:
     repository: ghcr.io/ministryofjustice/hmpps-digital-prison-reporting-demo-ui

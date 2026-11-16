@@ -1,10 +1,16 @@
 name: Pipeline
 
-# Main branch is the release branch. A push here creates vX.Y.Z, publishes
-# the image, and deploys the prison and probation charts to dev and test.
+# Pushing a branch does nothing.
+# Opening or updating a pull request into main builds an rc-<branch>-<run>
+# image and deploys prison to dev and probation to probation-dev.
+# Merging to main creates vX.Y.Z, publishes the image, and deploys
+# prison and probation to dev and test.
 # Preprod and prod are promoted from hmpps-reporting-releases, not by this push.
 
 on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]
   push:
     branches: [main]
   workflow_dispatch:
@@ -16,7 +22,7 @@ permissions:
   attestations: write
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref == 'refs/heads/main' && github.sha || github.ref }}
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || (github.ref == 'refs/heads/main' && github.sha || github.ref) }}
   cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 jobs:
@@ -27,6 +33,7 @@ jobs:
       deploy-ref: refs/heads/main
       enable-release-tag: true
       deploy-preprod-prod: false
+      deploy-dev-on-feature-branches: true
       enable-probation: true
       enable-sentry: false
       node-version: '24'
