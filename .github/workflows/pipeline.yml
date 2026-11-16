@@ -1,12 +1,13 @@
 name: Pipeline
 
-# Main branch is the release branch. A push here creates vX.Y.Z, publishes
-# the image, and deploys the prison and probation charts to dev and test.
+# Main is the release branch. A push here creates vX.Y.Z, publishes the
+# image, and deploys the prison and probation charts to dev and test.
+# Any other branch builds an rc-<branch>-<run> image and deploys dev only.
 # Preprod and prod are promoted from hmpps-reporting-releases, not by this push.
 
 on:
   push:
-    branches: [main]
+    branches: ['**']
   workflow_dispatch:
 
 permissions:
@@ -27,6 +28,7 @@ jobs:
       deploy-ref: refs/heads/main
       enable-release-tag: true
       deploy-preprod-prod: false
+      deploy-dev-on-feature-branches: true
       enable-probation: true
       enable-sentry: false
       node-version: '24'
