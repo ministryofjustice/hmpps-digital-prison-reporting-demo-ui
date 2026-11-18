@@ -8,7 +8,14 @@
     "build": "node --check server.js && node --check server.test.js",
     "lint": "node --check server.js && node --check server.test.js",
     "test:ci": "node --test",
-    "start": "node server.js"
+    "start": "node server.js",
+    "start-feature": "PORT=3007 node server.js",
+    "start-feature:probation": "PORT=3005 PRODUCT=probation node server.js",
+    "int-test": "cypress run --config video=false",
+    "acceptance-test": "cypress run --config-file cypress-tests/acceptance-tests/cypress.config.js"
+  },
+  "devDependencies": {
+    "cypress": "^15.21.1"
   },
   "engines": {
     "node": ">=24"

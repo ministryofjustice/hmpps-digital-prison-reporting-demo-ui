@@ -36,6 +36,13 @@ jobs:
       deploy-dev-on-feature-branches: true
       enable-probation: true
       enable-sentry: false
+      # Minimal Cypress smoke (no Wiremock/auth). Acceptance hits DEV /ping.
+      enable-integration-tests: true
+      integration-enable-wiremock: false
+      integration-enable-start-probation: false
+      integration-enable-redis: false
+      integration-run-typecheck: false
+      enable-acceptance-tests: true
       node-version: '24'
       slack-channel: 'dpr_cicd_approvals'
       primary-chart-name: hmpps-digital-prison-reporting-demo-ui
