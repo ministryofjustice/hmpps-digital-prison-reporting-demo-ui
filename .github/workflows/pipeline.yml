@@ -36,15 +36,15 @@ jobs:
       deploy-dev-on-feature-branches: true
       enable-probation: true
       enable-sentry: false
-      # Cypress: prove integration first (local). Acceptance hits live DEV and
-      # needs IP allowlist / self-hosted runners — leave off until that is ready.
-      # Then: enable-acceptance-tests: true
+      # Cypress — integration is local; acceptance hits live DEV after deploy.
+      # Repo is in the hmpps-github-actions-runner group (self-hosted labels).
       enable-integration-tests: true
       integration-enable-wiremock: false
       integration-enable-start-probation: false
       integration-enable-redis: false
       integration-run-typecheck: false
-      enable-acceptance-tests: false
+      enable-acceptance-tests: true
+      acceptance-runs-on: '["self-hosted","Linux","X64","hmpps-github-actions-runner"]'
       node-version: '24'
       slack-channel: 'dpr_cicd_approvals'
       primary-chart-name: hmpps-digital-prison-reporting-demo-ui
