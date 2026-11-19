@@ -27,7 +27,9 @@ concurrency:
 
 jobs:
   pipeline:
-    uses: ministryofjustice/hmpps-reporting-workflows/.github/workflows/frontend_node_pipeline.yml@test/tag-based-releases
+    # Pin to trial branch only — acceptance-runs-on is not on test/tag-based-releases yet.
+    # Revert to @test/tag-based-releases after that branch is merged.
+    uses: ministryofjustice/hmpps-reporting-workflows/.github/workflows/frontend_node_pipeline.yml@feat/acceptance-self-hosted-runner
     secrets: inherit
     with:
       deploy-ref: refs/heads/main
