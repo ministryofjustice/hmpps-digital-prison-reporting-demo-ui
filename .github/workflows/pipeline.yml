@@ -1,6 +1,8 @@
 name: Pipeline
 
-# Opening or updating a pull request into main runs checks only (no DEV deploy).
+# Opening or updating a pull request into main runs checks only.
+# Add the "ready to main" label on a PR to also build and deploy
+# prison + probation DEV (and run acceptance against live DEV).
 # Merging to main creates vX.Y.Z, publishes the image, and deploys
 # prison and probation to dev and test.
 # Preprod and prod are promoted from hmpps-reporting-releases, not by this push.
@@ -8,7 +10,7 @@ name: Pipeline
 on:
   pull_request:
     branches: [main]
-    types: [opened, synchronize, reopened]
+    types: [opened, synchronize, reopened, labeled]
   push:
     branches: [main]
   workflow_dispatch:
@@ -31,7 +33,8 @@ jobs:
       deploy-ref: refs/heads/main
       enable-release-tag: true
       deploy-preprod-prod: false
-      deploy-dev-on-feature-branches: false
+      # PR DEV deploy only when labeled "ready to main"; main always deploys via deploy-ref.
+      deploy-dev-on-feature-branches: ${{ github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'ready to main') }}
       enable-probation: true
       enable-sentry: false
       # Cypress — integration is local; acceptance hits live DEV after deploy.
